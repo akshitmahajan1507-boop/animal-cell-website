@@ -268,30 +268,6 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
     a:Math.random()*0.55+0.04,da:(Math.random()-0.5)*0.004,
     hue:Math.random()<0.18?170+Math.random()*90:215+Math.random()*45
   }));
-  // shooting stars
-  const shoots=[];let sf=0;
-  function draw(){
-    sf++;x.clearRect(0,0,c.width,c.height);
-    blobs.forEach(b=>{
-      const g=x.createRadialGradient(b.px*c.width,b.py*c.height,0,b.px*c.width,b.py*c.height,b.r*Math.max(c.width,c.height));
-      g.addColorStop(0,b.col);g.addColorStop(1,'transparent');
-      x.fillStyle=g;x.fillRect(0,0,c.width,c.height);
-    });
-    stars.forEach(s=>{
-      s.a+=s.da;if(s.a>0.65||s.a<0.04)s.da*=-1;
-      x.beginPath();x.arc(s.x*c.width,s.y*c.height,s.r,0,Math.PI*2);
-      x.fillStyle=`hsla(${s.hue},80%,92%,${s.a})`;x.fill();
-    });
-    // occasional shooting star
-    if(sf%380===0)shoots.push({x:Math.random()*c.width,y:Math.random()*c.height*0.5,dx:4+Math.random()*3,dy:1.5+Math.random()*2,life:60});
-    shoots.forEach((s,i)=>{
-      x.beginPath();x.moveTo(s.x,s.y);x.lineTo(s.x-s.dx*12,s.y-s.dy*12);
-      const g2=x.createLinearGradient(s.x,s.y,s.x-s.dx*12,s.y-s.dy*12);
-      g2.addColorStop(0,'rgba(255,255,255,0.8)');g2.addColorStop(1,'transparent');
-      x.strokeStyle=g2;x.lineWidth=1.5;x.stroke();
-      s.x+=s.dx;s.y+=s.dy;s.life--;
-      if(s.life<=0)shoots.splice(i,1);
-    });
     requestAnimationFrame(draw);
   }
   draw();
